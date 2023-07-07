@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:farmiot/analytics/analytics.dart';
 import 'package:farmiot/diseases/diseases.dart';
 import 'package:farmiot/operations/operations.dart';
@@ -11,26 +13,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  /// variable to store the main color of the screen
+  Color mainColor = Colors.green;
+
   /// top container widget
   Widget topContainer() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.23,
       width: MediaQuery.of(context).size.width * 1,
-      padding: const EdgeInsets.only(left: 20, right: 20),
       decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 126, 219, 219),
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30))),
-      child: Column(
+        color: Colors.white,
+      ),
+      child: Stack(
         children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           titleContainer(),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [diseases(), analysis(), farmOperations()],
-          )
+          Positioned(
+              bottom: 0,
+              left: MediaQuery.of(context).size.width * 0.07,
+              right: MediaQuery.of(context).size.width * 0.07,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [diseases(), analysis(), farmOperations()],
+              ))
         ],
       ),
     );
@@ -39,18 +43,29 @@ class _HomePageState extends State<HomePage> {
   /// title container
   Widget titleContainer() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.05,
-      width: MediaQuery.of(context).size.width * 0.3,
-      decoration: const BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5))),
-      child: const Center(
-          child: Text(
-        "Smart Farm",
-        style: TextStyle(
-            color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
-      )),
+      height: MediaQuery.of(context).size.height * 0.18,
+      width: MediaQuery.of(context).size.width * 1,
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      decoration: BoxDecoration(
+          color: mainColor,
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          Text(
+            "Smart Farm",
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w300),
+          ),
+          Icon(
+            Icons.person,
+            size: 30,
+            color: Colors.white,
+          )
+        ],
+      ),
     );
   }
 
@@ -64,8 +79,16 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width * 0.25,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: const Offset(0, 1), // changes position of shadow
+              ),
+            ],
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -97,8 +120,16 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width * 0.25,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: const Offset(0, 1), // changes position of shadow
+              ),
+            ],
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -130,8 +161,16 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width * 0.25,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: const Offset(0, 1), // changes position of shadow
+              ),
+            ],
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -159,7 +198,7 @@ class _HomePageState extends State<HomePage> {
         height: MediaQuery.of(context).size.height * 0.77,
         width: MediaQuery.of(context).size.width * 1,
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: Colors.transparent,
         ),
         child: Column(
           children: [
@@ -181,7 +220,7 @@ class _HomePageState extends State<HomePage> {
       width: MediaQuery.of(context).size.width * 1,
       padding: const EdgeInsets.only(left: 10, top: 10),
       decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(5))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
