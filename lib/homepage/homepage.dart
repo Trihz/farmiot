@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   /// variable to store the main color of the screen
-  Color mainColor = Colors.green;
+  Color mainColor = Color.fromARGB(255, 23, 40, 222);
 
   /// top container widget
   Widget topContainer() {
@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width * 0.25,
+        margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
             boxShadow: [
@@ -98,11 +99,11 @@ class _HomePageState extends State<HomePage> {
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: Image.asset("assets/analysis.png")),
             const Text(
-              "Analytics",
+              "ANALYTICS",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
             )
           ],
         ),
@@ -120,6 +121,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width * 0.25,
+        margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
             boxShadow: [
@@ -139,11 +141,11 @@ class _HomePageState extends State<HomePage> {
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: Image.asset("assets/diseases.png")),
             const Text(
-              "Diseases",
+              "DISEASES",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
             )
           ],
         ),
@@ -161,6 +163,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width * 0.25,
+        margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
             color: Color.fromARGB(255, 255, 255, 255),
             boxShadow: [
@@ -180,11 +183,11 @@ class _HomePageState extends State<HomePage> {
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: Image.asset("assets/diseases.png")),
             const Text(
-              "Operations",
+              "OPERATIONS",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
             )
           ],
         ),
@@ -202,12 +205,24 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Column(
           children: [
-            sensorValues(),
-            recommendedValues(),
-            correctiveMeasures(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.25,
+              height: MediaQuery.of(context).size.height * 0.02,
             ),
+            Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: Column(
+                  children: [
+                    sensorValues(),
+                    recommendedValues(),
+                    correctiveMeasures(),
+                  ],
+                )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+            ),
+            topBottomContainer(),
             bluetooth(),
           ],
         ));
@@ -216,7 +231,7 @@ class _HomePageState extends State<HomePage> {
   /// the sensor values
   Widget sensorValues() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
+      height: MediaQuery.of(context).size.height * 0.16,
       width: MediaQuery.of(context).size.width * 1,
       padding: const EdgeInsets.only(left: 10, top: 10),
       decoration: const BoxDecoration(
@@ -230,199 +245,171 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               "Farm Values",
               style: TextStyle(
-                  color: Color.fromARGB(255, 126, 219, 219),
+                  color: Colors.black,
                   fontSize: 16,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w600),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+          Container(
+            height: MediaQuery.of(context).size.height * 0.08,
+            width: MediaQuery.of(context).size.width * 0.9,
+            margin: const EdgeInsets.only(top: 10, bottom: 10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: const Offset(0, 1), // changes position of shadow
+                  ),
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        "Humidity",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                            color: mainColor,
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
+                        child: const Center(
+                          child: Text(
+                            "12g/m3",
+                            style: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.arrow_upward,
-                          color: Color.fromARGB(255, 175, 175, 175),
-                          size: 20,
-                        ),
-                        SizedBox(width: 3),
-                        Text(
-                          "Humidity",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    const Text(
-                      "12g/m3",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Temp",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                            color: mainColor,
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
+                        child: Center(
+                          child: Text(
+                            "20\u00B0C",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.arrow_upward,
-                          color: Color.fromARGB(255, 175, 175, 175),
-                          size: 20,
-                        ),
-                        SizedBox(width: 3),
-                        Text(
-                          "Temp",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    const Text(
-                      "20\u00B0C",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Moisture",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                            color: mainColor,
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
+                        child: Center(
+                          child: Text(
+                            "5g/m3",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.arrow_upward,
-                          color: Color.fromARGB(255, 175, 175, 175),
-                          size: 20,
-                        ),
-                        SizedBox(width: 3),
-                        Text(
-                          "Moisture",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    const Text(
-                      "5g/m3",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        "pH",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                        decoration: BoxDecoration(
+                            color: mainColor,
+                            borderRadius: BorderRadius.all(Radius.circular(2))),
+                        child: const Center(
+                          child: Text(
+                            "0.1",
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.arrow_downward,
-                          color: Color.fromARGB(255, 175, 175, 175),
-                          size: 20,
-                        ),
-                        SizedBox(width: 3),
-                        Text(
-                          "pH",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    const Text(
-                      "0.1",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
@@ -432,7 +419,7 @@ class _HomePageState extends State<HomePage> {
   /// the sensor values
   Widget recommendedValues() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
+      height: MediaQuery.of(context).size.height * 0.13,
       width: MediaQuery.of(context).size.width * 1,
       decoration:
           const BoxDecoration(color: Color.fromARGB(255, 255, 255, 255)),
@@ -444,167 +431,147 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               "Recommended Values",
               style: TextStyle(
-                  color: Color.fromARGB(255, 126, 219, 219),
+                  color: Colors.black,
                   fontSize: 16,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w600),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+          Container(
+            height: MediaQuery.of(context).size.height * 0.08,
+            width: MediaQuery.of(context).size.width * 0.9,
+            margin: const EdgeInsets.only(top: 10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: const Offset(0, 1), // changes position of shadow
+                  ),
+                ],
+                borderRadius: const BorderRadius.all(Radius.circular(5))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "10g/m3",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "(Wet)",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "10g/m3",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "(Wet)",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: const BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "25\u00B0C",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "(Medium)",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "25\u00B0C",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "(Medium)",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: const BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "5g/m³",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "(Low)",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "5g/m³",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "(Low)",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.08,
-                width: MediaQuery.of(context).size.width * 0.2,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 1), // changes position of shadow
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "0.2",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "(Basic)",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
-                    borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "0.2",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "(Basic)",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
@@ -620,24 +587,30 @@ class _HomePageState extends State<HomePage> {
         color: Colors.transparent,
       ),
       child: Center(
-        child: Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
-                spreadRadius: 1,
-                blurRadius: 1,
-                offset: const Offset(0, 1), // changes position of shadow
-              ),
-            ],
-            shape: BoxShape.circle,
-          ),
-          child: const Center(
-            child: Icon(Icons.bluetooth_searching,
-                color: Color.fromARGB(255, 126, 219, 219), size: 30),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => bluetooth())));
+          },
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: mainColor,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: const Offset(0, 1), // changes position of shadow
+                ),
+              ],
+              shape: BoxShape.circle,
+            ),
+            child: const Center(
+              child: Icon(Icons.bluetooth_searching,
+                  color: Colors.white, size: 30),
+            ),
           ),
         ),
       ),
@@ -653,27 +626,83 @@ class _HomePageState extends State<HomePage> {
         width: MediaQuery.of(context).size.width * 0.5,
         padding: const EdgeInsets.all(5),
         margin: const EdgeInsets.only(top: 15),
-        decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 126, 219, 219),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: const Offset(0, 1), // changes position of shadow
+              ),
+            ],
             borderRadius: BorderRadius.all(Radius.circular(5))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const [
+          children: [
             Text(
               "Corrective measures",
               style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500),
+                  color: mainColor, fontSize: 16, fontWeight: FontWeight.w500),
             ),
             SizedBox(width: 10),
             Icon(
               Icons.crop,
-              color: Colors.white,
+              color: mainColor,
               size: 20,
             )
           ],
         ),
+      ),
+    );
+  }
+
+  /// widget at the top of bottom container
+  Widget topBottomContainer() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.15,
+      width: MediaQuery.of(context).size.width * 0.8,
+      margin: const EdgeInsets.only(top: 20),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Row(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.11,
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Image.asset("assets/pump.png")),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.03,
+                width: MediaQuery.of(context).size.width * 0.2,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset:
+                            const Offset(0, 1), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.all(Radius.circular(2))),
+                child: const Center(
+                  child: Text(
+                    "OFF",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }
