@@ -1,4 +1,5 @@
 import 'package:farmiot/homepage/homepage.dart';
+import 'package:farmiot/operations/view_operations.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
@@ -11,89 +12,34 @@ class Operations extends StatefulWidget {
 
 class _OperationsState extends State<Operations> with TickerProviderStateMixin {
   /// variable to store the main color of the screen
-  Color mainColor = Color.fromARGB(255, 23, 40, 222);
-
-  /// show tab bar
-  Widget tabBarDisplay(TabController tabController) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.05,
-      padding: const EdgeInsets.only(top: 3, bottom: 3, left: 3),
-      width: MediaQuery.of(context).size.width * 0.9,
-      decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
-          borderRadius: BorderRadius.all(Radius.circular(5))),
-      child: TabBar(
-          controller: tabController,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.black,
-          indicator: BoxDecoration(
-              color: mainColor,
-              borderRadius: BorderRadius.all(Radius.circular(5))),
-          tabs: const [
-            Tab(
-              child: Text(
-                "RECORD",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-            ),
-            Tab(
-              child: Text(
-                "VIEW",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-              ),
-            )
-          ]),
-    );
-  }
+  Color mainColor = Color.fromARGB(255, 19, 62, 1);
 
   /// show tab view
-  Widget tabViewDisplay(TabController tabController) {
+  Widget mainContainer() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.9,
       width: MediaQuery.of(context).size.width * 1,
       decoration: const BoxDecoration(
         color: Colors.transparent,
       ),
-      child: TabBarView(controller: tabController, children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.85,
-          width: MediaQuery.of(context).size.width * 1,
-          decoration: const BoxDecoration(
-            color: Colors.transparent,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [showCalendar(), operationsRecording(), recordButton()],
-          ),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        width: MediaQuery.of(context).size.width * 1,
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
         ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.85,
-          width: MediaQuery.of(context).size.width * 1,
-          decoration: const BoxDecoration(
-            color: Colors.transparent,
-          ),
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.75,
-                width: MediaQuery.of(context).size.width * 1,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: ListView.builder(
-                    itemCount: 5,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: ((context, index) {
-                      return operationsContainer();
-                    })),
-              )
-            ],
-          ),
-        )
-      ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            showCalendar(),
+            operationsRecording(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [recordButton(), viewButtonScreen()],
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -101,14 +47,14 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
   Widget showCalendar() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.33,
-      width: MediaQuery.of(context).size.width * 0.99,
+      width: MediaQuery.of(context).size.width * 0.97,
       decoration: BoxDecoration(
           color: mainColor,
           borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomRight: Radius.circular(10))),
+              bottomLeft: Radius.circular(5),
+              topLeft: Radius.circular(5),
+              topRight: Radius.circular(5),
+              bottomRight: Radius.circular(5))),
       child: Column(
         children: [
           Container(
@@ -119,8 +65,15 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
               ),
               child: CalendarDatePicker2(
                 config: CalendarDatePicker2Config(
-                    dayTextStyle: TextStyle(color: Colors.white),
-                    controlsTextStyle: TextStyle(
+                    dayTextStyle: const TextStyle(color: Colors.white),
+                    selectedDayHighlightColor: Colors.black,
+                    selectedDayTextStyle: const TextStyle(
+                        fontWeight: FontWeight.w600, color: Colors.white),
+                    todayTextStyle: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16),
+                    controlsTextStyle: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.w600)),
                 value: [],
               )),
@@ -132,7 +85,7 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
   /// show the operations recording container
   Widget operationsRecording() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.5,
       width: MediaQuery.of(context).size.width * 1,
       decoration: const BoxDecoration(
         color: Colors.transparent,
@@ -167,7 +120,7 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.05,
-            width: MediaQuery.of(context).size.width * 0.9,
+            width: MediaQuery.of(context).size.width * 0.94,
             decoration: const BoxDecoration(
               color: Colors.white,
             ),
@@ -190,8 +143,8 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.25,
-            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.33,
+            width: MediaQuery.of(context).size.width * 0.94,
             decoration: const BoxDecoration(
               color: Colors.white,
             ),
@@ -222,7 +175,7 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
   /// show record button
   Widget recordButton() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.04,
+      height: MediaQuery.of(context).size.height * 0.05,
       width: MediaQuery.of(context).size.width * 0.4,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -230,15 +183,69 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
       child: ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-              backgroundColor: mainColor,
+              backgroundColor: Colors.grey.shade200,
               foregroundColor: Colors.white,
+              shadowColor: Colors.grey,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5))),
           child: const Text(
             "SAVE",
-            style: TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          )),
+    );
+  }
+
+  /// show record button
+  Widget recordButtonScreen() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.07,
+      width: MediaQuery.of(context).size.width * 0.4,
+      padding: const EdgeInsets.only(top: 20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => Operations())));
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey.shade200,
+              foregroundColor: Colors.white,
+              shadowColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5))),
+          child: const Text(
+            "RECORD SCREEN",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          )),
+    );
+  }
+
+  /// show record button
+  Widget viewButtonScreen() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.05,
+      width: MediaQuery.of(context).size.width * 0.4,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => const ViewOperations())));
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey.shade200,
+              foregroundColor: Colors.white,
+              shadowColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5))),
+          child: const Text(
+            "VIEW",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
           )),
     );
   }
@@ -248,18 +255,55 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
     return Container(
       height: MediaQuery.of(context).size.height * 0.15,
       width: MediaQuery.of(context).size.width * 1,
-      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 15),
+      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 20),
+      padding: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 3,
+              color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
+              spreadRadius: 1,
               blurRadius: 1,
               offset: const Offset(0, 1), // changes position of shadow
             ),
           ],
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
+          borderRadius: const BorderRadius.all(Radius.circular(5))),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              Text(
+                "Prunning",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
+              ),
+              Text(
+                "(12-01-2023)",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
+          const Divider(
+            color: Colors.black,
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 10, right: 5),
+            child: const Text(
+              "Pruning helps remove diseased, damaged, or dead plant parts, reducing the risk of infection or spread of pests and diseases.",
+              style: TextStyle(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -276,10 +320,9 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
       child: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.08,
+            height: MediaQuery.of(context).size.height * 0.09,
           ),
-          tabBarDisplay(tabController),
-          tabViewDisplay(tabController)
+          mainContainer()
         ],
       ),
     ));
