@@ -9,7 +9,19 @@ class BluetoothUI extends StatefulWidget {
 }
 
 class _BluetoothUIState extends State<BluetoothUI> {
+  /// connection status  boolean
   bool connectionStatus = false;
+
+  /// bluetooth device name variable
+  String deviceName = "HCO5";
+
+  /// list variable to store all the bluetooth devices available
+  List availableDevices = [
+    "Maize farm end",
+    "Maixe farm center",
+    "Maize farm start",
+    "Maize farm left"
+  ];
 
   /// variable to store the main color of the screen
   Color mainColor = const Color.fromARGB(255, 19, 62, 1);
@@ -92,28 +104,34 @@ class _BluetoothUIState extends State<BluetoothUI> {
             decoration: const BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: const Offset(0, 1), // changes position of shadow
+            child: GestureDetector(
+              onTap: () {
+                scanResult(context);
+              },
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: const Offset(0, 1), // changes position of shadow
+                    ),
+                  ],
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: Text(
+                    "SCAN",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 19,
+                        fontWeight: FontWeight.w400),
                   ),
-                ],
-                shape: BoxShape.circle,
-              ),
-              child: const Center(
-                child: Text(
-                  "SCAN",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w400),
                 ),
               ),
             ),
@@ -506,5 +524,54 @@ class _BluetoothUIState extends State<BluetoothUI> {
         ],
       ),
     ));
+  }
+
+  void scanResult(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Available devices'),
+          content: Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 1,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: ListView.builder(
+                itemCount: availableDevices.length,
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.all(5),
+                itemBuilder: ((context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      print(availableDevices[index]);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.width * 1,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                          color: mainColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5))),
+                      child: Center(
+                        child: Text(
+                          availableDevices[index],
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ),
+                  );
+                })),
+          ),
+          actions: [],
+        );
+      },
+    );
   }
 }

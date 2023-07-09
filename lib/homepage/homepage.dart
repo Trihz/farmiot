@@ -1,9 +1,15 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:farmiot/analytics/analytics.dart';
 import 'package:farmiot/bluetooth/bluetooth_ui.dart';
+import 'package:farmiot/correctivemeasures/corrective_measures.dart';
 import 'package:farmiot/diseases/diseases.dart';
 import 'package:farmiot/operations/operations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +21,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   /// variable to store the main color of the screen
-  Color mainColor = Color.fromARGB(255, 19, 62, 1);
+  Color mainColor = const Color.fromARGB(255, 90, 228, 31);
+
+  /// variables to store sensor data
+  String moistureData = "";
+  String temperatureData = "";
+  String humidityData = "";
+  String phData = "";
+
+  /// variable to store the status of the pump
+  String pumpStatus = "OFF";
 
   /// top container widget
   Widget topContainer() {
@@ -47,11 +62,12 @@ class _HomePageState extends State<HomePage> {
       height: MediaQuery.of(context).size.height * 0.18,
       width: MediaQuery.of(context).size.width * 1,
       padding: const EdgeInsets.only(left: 20, right: 20),
+      margin: const EdgeInsets.only(left: 3, right: 3),
       decoration: BoxDecoration(
           color: mainColor,
           borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30))),
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
@@ -210,14 +226,16 @@ class _HomePageState extends State<HomePage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
+                height: MediaQuery.of(context).size.height * 0.35,
+                width: MediaQuery.of(context).size.width * 1,
                 decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.transparent,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     sensorValues(),
                     recommendedValues(),
-                    correctiveMeasures(),
                   ],
                 )),
             SizedBox(
@@ -234,7 +252,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.16,
       width: MediaQuery.of(context).size.width * 1,
-      padding: const EdgeInsets.only(left: 10, top: 10),
+      padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
       decoration: const BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -248,7 +266,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
-                  fontWeight: FontWeight.w600),
+                  fontWeight: FontWeight.w400),
             ),
           ),
           Container(
@@ -290,12 +308,13 @@ class _HomePageState extends State<HomePage> {
                         width: MediaQuery.of(context).size.width * 0.2,
                         decoration: BoxDecoration(
                             color: mainColor,
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
-                        child: const Center(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(2))),
+                        child: Center(
                           child: Text(
-                            "12g/m3",
-                            style: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 1),
+                            "${humidityData}g/m3",
+                            style: const TextStyle(
+                                color: Color.fromRGBO(0, 0, 0, 1),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300),
                           ),
@@ -325,12 +344,13 @@ class _HomePageState extends State<HomePage> {
                         width: MediaQuery.of(context).size.width * 0.2,
                         decoration: BoxDecoration(
                             color: mainColor,
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
-                        child: const Center(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(2))),
+                        child: Center(
                           child: Text(
-                            "20\u00B0C",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
+                            "$temperatureData\u00B0C",
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300),
                           ),
@@ -348,7 +368,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
+                      const Text(
                         "Moisture",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
@@ -360,12 +380,13 @@ class _HomePageState extends State<HomePage> {
                         width: MediaQuery.of(context).size.width * 0.2,
                         decoration: BoxDecoration(
                             color: mainColor,
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(2))),
                         child: Center(
                           child: Text(
-                            "5g/m3",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
+                            "${moistureData}g/m3",
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300),
                           ),
@@ -397,11 +418,11 @@ class _HomePageState extends State<HomePage> {
                             color: mainColor,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(2))),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "0.1",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
+                            phData,
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300),
                           ),
@@ -423,20 +444,41 @@ class _HomePageState extends State<HomePage> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.13,
       width: MediaQuery.of(context).size.width * 1,
+      padding: const EdgeInsets.only(left: 30, right: 30),
       decoration:
           const BoxDecoration(color: Color.fromARGB(255, 255, 255, 255)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Recommended Values",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Recommended",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Measures",
+                    style: TextStyle(
+                        color: mainColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(width: 10),
+                  Icon(
+                    Icons.crop,
+                    color: mainColor,
+                    size: 25,
+                  )
+                ],
+              ),
+            ],
           ),
           Container(
             height: MediaQuery.of(context).size.height * 0.08,
@@ -591,17 +633,19 @@ class _HomePageState extends State<HomePage> {
       child: Center(
         child: GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: ((context) => BluetoothUI())));
+            readSensorData();
+            //sendData();
+            /*Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => BluetoothUI())));*/
           },
           child: Container(
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: mainColor,
+              color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
                   spreadRadius: 1,
                   blurRadius: 1,
                   offset: const Offset(0, 1), // changes position of shadow
@@ -609,51 +653,11 @@ class _HomePageState extends State<HomePage> {
               ],
               shape: BoxShape.circle,
             ),
-            child: const Center(
-              child: Icon(Icons.bluetooth_searching,
-                  color: Colors.white, size: 30),
+            child: Center(
+              child:
+                  Icon(Icons.bluetooth_searching, color: mainColor, size: 35),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  /// corrective measures display
-  Widget correctiveMeasures() {
-    return Align(
-      alignment: Alignment.center,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.05,
-        width: MediaQuery.of(context).size.width * 0.5,
-        padding: const EdgeInsets.all(5),
-        margin: const EdgeInsets.only(top: 15),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 1,
-                blurRadius: 1,
-                offset: const Offset(0, 1), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.all(Radius.circular(5))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              "Corrective measures",
-              style: TextStyle(
-                  color: mainColor, fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            SizedBox(width: 10),
-            Icon(
-              Icons.crop,
-              color: mainColor,
-              size: 20,
-            )
-          ],
         ),
       ),
     );
@@ -691,10 +695,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                     borderRadius: const BorderRadius.all(Radius.circular(2))),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    "OFF",
-                    style: TextStyle(
+                    pumpStatus,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
                       color: Colors.black,
@@ -707,6 +711,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  /// intial function of the screen
+  @override
+  void initState() {
+    readSensorData();
+    super.initState();
   }
 
   @override
@@ -722,5 +733,38 @@ class _HomePageState extends State<HomePage> {
         children: [topContainer(), bottomContainer()],
       ),
     ));
+  }
+
+  void readSensorData() async {
+    DatabaseReference starCountRef = FirebaseDatabase.instance.ref();
+    starCountRef.onValue.listen((DatabaseEvent event) {
+      var moisture = event.snapshot.child("sensordata").child("moisture").value;
+      var temp = event.snapshot.child("sensordata").child("temp").value;
+      var humidity = event.snapshot.child("sensordata").child("humidity").value;
+      var ph = event.snapshot.child("sensordata").child("ph").value;
+      setState(() {
+        moistureData = moisture.toString();
+        temperatureData = temp.toString();
+        humidityData = humidity.toString();
+        phData = ph.toString();
+      });
+    });
+  }
+
+  void readPumpStatus() async {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref().child("pump");
+    databaseReference.onValue.listen((DatabaseEvent event) {
+      var moisture = event.snapshot.child("sensordata").child("moisture").value;
+      var temp = event.snapshot.child("sensordata").child("temp").value;
+      var humidity = event.snapshot.child("sensordata").child("humidity").value;
+      var ph = event.snapshot.child("sensordata").child("ph").value;
+      setState(() {
+        moistureData = moisture.toString();
+        temperatureData = temp.toString();
+        humidityData = humidity.toString();
+        phData = ph.toString();
+      });
+    });
   }
 }

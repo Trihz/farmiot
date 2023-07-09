@@ -1,5 +1,6 @@
 import 'package:farmiot/homepage/homepage.dart';
 import 'package:farmiot/operations/view_operations.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
@@ -12,7 +13,12 @@ class Operations extends StatefulWidget {
 
 class _OperationsState extends State<Operations> with TickerProviderStateMixin {
   /// variable to store the main color of the screen
-  Color mainColor = Color.fromARGB(255, 19, 62, 1);
+  Color mainColor = const Color.fromARGB(255, 90, 228, 31);
+
+  /// variables to store the details of the operation
+  String operationDate = "";
+  String operationTitle = "";
+  String operationDescription = "";
 
   /// show tab view
   Widget mainContainer() {
@@ -66,11 +72,11 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
               child: CalendarDatePicker2(
                 config: CalendarDatePicker2Config(
                     dayTextStyle: const TextStyle(color: Colors.white),
-                    selectedDayHighlightColor: Colors.black,
+                    selectedDayHighlightColor: Colors.white,
                     selectedDayTextStyle: const TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.white),
+                        fontWeight: FontWeight.w600, color: Colors.black),
                     todayTextStyle: const TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.w900,
                         fontSize: 16),
                     controlsTextStyle: const TextStyle(
@@ -126,7 +132,9 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
             ),
             child: TextField(
               onChanged: (value) {
-                setState(() {});
+                setState(() {
+                  operationTitle = value;
+                });
               },
               decoration: const InputDecoration(
                 hintText: "Operations title",
@@ -135,8 +143,20 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
                     TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 1.0,
+                    color: Color.fromARGB(255, 126, 126, 126),
+                    width: 0.5,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 126, 126, 126),
+                    width: 0.5,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 126, 126, 126),
+                    width: 0.5,
                   ),
                 ),
               ),
@@ -150,7 +170,9 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
             ),
             child: TextField(
               onChanged: (value) {
-                setState(() {});
+                setState(() {
+                  operationDescription = value;
+                });
               },
               maxLines: 20,
               decoration: const InputDecoration(
@@ -160,8 +182,20 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
                     TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 1.0,
+                    color: Color.fromARGB(255, 126, 126, 126),
+                    width: 0.5,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 126, 126, 126),
+                    width: 0.5,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 126, 126, 126),
+                    width: 0.5,
                   ),
                 ),
               ),
@@ -181,7 +215,11 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
         color: Colors.white,
       ),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            print(operationTitle);
+            print(operationDescription);
+            saveOperationData();
+          },
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey.shade200,
               foregroundColor: Colors.white,
@@ -309,22 +347,32 @@ class _OperationsState extends State<Operations> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 2, vsync: this);
     return Scaffold(
-        body: Container(
-      height: MediaQuery.of(context).size.height * 1,
-      width: MediaQuery.of(context).size.width * 1,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.09,
-          ),
-          mainContainer()
-        ],
+        body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Container(
+        height: MediaQuery.of(context).size.height * 1,
+        width: MediaQuery.of(context).size.width * 1,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.09,
+            ),
+            mainContainer()
+          ],
+        ),
       ),
     ));
+  }
+
+  void saveOperationData() async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("operations");
+
+    await ref
+        .push()
+        .set({"title": operationTitle, "description": operationDescription});
   }
 }

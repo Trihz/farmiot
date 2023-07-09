@@ -1,4 +1,5 @@
 import 'package:farmiot/operations/operations.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class ViewOperations extends StatefulWidget {
@@ -10,7 +11,10 @@ class ViewOperations extends StatefulWidget {
 
 class _ViewOperationsState extends State<ViewOperations> {
   /// variable to store the main color of the screen
-  Color mainColor = const Color.fromARGB(255, 23, 40, 222);
+  Color mainColor = const Color.fromARGB(255, 90, 228, 31);
+
+  /// list variable to store all the operation recoded by the user
+  List operations = [];
 
   /// widget todisplay the main container of the screen
   Widget mainContainer() {
@@ -35,11 +39,16 @@ class _ViewOperationsState extends State<ViewOperations> {
               color: Colors.white,
             ),
             child: ListView.builder(
-                itemCount: 5,
-                padding: EdgeInsets.all(0),
+                itemCount: operations.length,
+                padding: const EdgeInsets.all(0),
                 scrollDirection: Axis.vertical,
                 itemBuilder: ((context, index) {
-                  return operationsContainer();
+                  String operationDate = "12-02-2023";
+                  String operationTitle = operations[index]["title"];
+                  String operationDescription =
+                      operations[index]['description'];
+                  return operationsContainer(
+                      operationDate, operationTitle, operationDescription);
                 })),
           ),
         ],
@@ -48,7 +57,8 @@ class _ViewOperationsState extends State<ViewOperations> {
   }
 
   /// widget operations container
-  Widget operationsContainer() {
+  Widget operationsContainer(String operationDate, String operationTitle,
+      String operationDescription) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.15,
       width: MediaQuery.of(context).size.width * 1,
@@ -58,7 +68,7 @@ class _ViewOperationsState extends State<ViewOperations> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
+              color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
               offset: const Offset(0, 1), // changes position of shadow
@@ -68,18 +78,18 @@ class _ViewOperationsState extends State<ViewOperations> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
               Text(
-                "Prunning",
-                style: TextStyle(
+                operationTitle,
+                style: const TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
                     fontSize: 14,
                     fontWeight: FontWeight.w400),
               ),
               Text(
-                "(12-01-2023)",
-                style: TextStyle(
+                operationDate,
+                style: const TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
                     fontSize: 14,
                     fontWeight: FontWeight.w400),
@@ -91,9 +101,9 @@ class _ViewOperationsState extends State<ViewOperations> {
           ),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 5),
-            child: const Text(
-              "Pruning helps remove diseased, damaged, or dead plant parts, reducing the risk of infection or spread of pests and diseases.",
-              style: TextStyle(
+            child: Text(
+              operationDescription,
+              style: const TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
                   fontSize: 14,
                   fontWeight: FontWeight.w400),
@@ -149,5 +159,25 @@ class _ViewOperationsState extends State<ViewOperations> {
         ],
       ),
     ));
+  }
+
+  @override
+  void initState() {
+    getOperations();
+    super.initState();
+  }
+
+  void getOperations() async {
+    DatabaseReference starCountRef =
+        FirebaseDatabase.instance.ref().child("operations");
+    starCountRef.onValue.listen((DatabaseEvent event) {
+      for (var data in event.snapshot.children) {
+        setState(() {
+          operations.add(data.value);
+        });
+      }
+      print(operations[0]["title"]);
+      print(operations[0]["description"]);
+    });
   }
 }
