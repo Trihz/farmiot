@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class Diseases extends StatefulWidget {
@@ -9,7 +10,13 @@ class Diseases extends StatefulWidget {
 
 class _DiseasesState extends State<Diseases> {
   /// variable to store the main color of the screen
-  Color mainColor = const Color.fromARGB(255, 23, 40, 222);
+  Color mainColor = const Color.fromARGB(255, 90, 228, 31);
+
+  /// variable to store the diseases present in the farm
+  List diseases = [];
+
+  /// variable to store the name of the disease being displayed (active display)
+  String activeDiseaseDisplay = "";
 
   /// widget to display the top container
   Widget topContainer() {
@@ -43,14 +50,14 @@ class _DiseasesState extends State<Diseases> {
               offset: const Offset(0, 1),
             ),
           ],
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+          borderRadius: const BorderRadius.all(Radius.circular(5))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Image.asset("assets/disease.jpg"),
-          const Text(
-            "Leaf scorch",
-            style: TextStyle(
+          Text(
+            activeDiseaseDisplay,
+            style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 20,
               color: Colors.black,
@@ -87,7 +94,7 @@ class _DiseasesState extends State<Diseases> {
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(5))),
             child: ListView.builder(
-                itemCount: 3,
+                itemCount: diseases.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: ((context, index) {
                   return Container(
@@ -101,16 +108,20 @@ class _DiseasesState extends State<Diseases> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text(
-                          "Blot",
-                          style: TextStyle(
+                        Text(
+                          diseases[index]["name"],
+                          style: const TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 20,
                             color: Colors.white,
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              activeDiseaseDisplay = diseases[index]["name"];
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               foregroundColor: Colors.black),
@@ -211,6 +222,13 @@ class _DiseasesState extends State<Diseases> {
     );
   }
 
+  /// initial function of screen
+  @override
+  void initState() {
+    getDiseases();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,5 +242,25 @@ class _DiseasesState extends State<Diseases> {
         children: [topContainer(), bottomContainer()],
       ),
     ));
+  }
+
+  /// function to get the diseases present in the farm
+  void getDiseases() {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref().child("disease");
+    databaseReference.onValue.listen((event) {
+      print(event.snapshot.value);
+      for (var data in event.snapshot.children) {
+        setState(() {
+          diseases.add(data.value);
+        });
+      }
+      setState(() {
+        activeDiseaseDisplay = diseases[0]["name"];
+        print(activeDiseaseDisplay);
+      });
+      print(diseases);
+      print(diseases.length);
+    });
   }
 }

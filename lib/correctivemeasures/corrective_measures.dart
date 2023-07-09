@@ -11,7 +11,7 @@ class CorrectiveMeasures extends StatefulWidget {
 
 class _CorrectiveMeasuresState extends State<CorrectiveMeasures> {
   /// variable to store the main color of the screen
-  Color mainColor = const Color.fromARGB(255, 19, 62, 1);
+  Color mainColor = const Color.fromARGB(255, 90, 228, 31);
 
   /// list to store the corrective measures for low humidity
   List humidityMeasures = [
@@ -21,6 +21,7 @@ class _CorrectiveMeasuresState extends State<CorrectiveMeasures> {
       "3. Shade structures",
       "4. Windbreaks"
     ],
+    ["Ideal conditions"],
     [
       "1. Dehumidification equipment",
       "2. Monitor irrigation practices",
@@ -32,15 +33,16 @@ class _CorrectiveMeasuresState extends State<CorrectiveMeasures> {
   /// list to store the corrective measures for low humidity
   List tempMeasures = [
     [
-      "1. Irrigation and watering practices",
-      "2. Mulching",
+      "1. Shade and Windbreaks",
+      "2. Provide Ventilation",
       "3. Shade structures",
-      "4. Windbreaks"
+      "4. Irrigation Management"
     ],
+    ["Ideal conditions"],
     [
-      "1. Irrigation and watering practices",
-      "2. Mulching",
-      "3. Shade structures",
+      "1. Row heat covers traps",
+      "2. Pruning and Training",
+      "3. Timing of Operations",
       "4. Windbreaks"
     ]
   ];
@@ -53,6 +55,7 @@ class _CorrectiveMeasuresState extends State<CorrectiveMeasures> {
       "3. Shade structures",
       "4. Windbreaks"
     ],
+    ["Ideal conditions"],
     [
       "1. Irrigation and watering practices",
       "2. Mulching",
@@ -64,16 +67,17 @@ class _CorrectiveMeasuresState extends State<CorrectiveMeasures> {
   /// list to store the corrective measures for low humidity
   List pHMeasures = [
     [
-      "1. Irrigation and watering practices",
-      "2. Mulching",
-      "3. Shade structures",
-      "4. Windbreaks"
+      "1. Acidification",
+      "2. Gypsum Application",
+      "3. Mulching",
+      "4. Organic Matter Addition"
     ],
+    ["Ideal conditions"],
     [
-      "1. Irrigation and watering practices",
-      "2. Mulching",
-      "3. Shade structures",
-      "4. Windbreaks"
+      "1. Liming",
+      "2. Balanced Fertilization",
+      "3. Crop Rotation and Cover Crops",
+      "4. pH Buffering"
     ]
   ];
 

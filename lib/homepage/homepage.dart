@@ -1,14 +1,9 @@
 // ignore_for_file: sized_box_for_whitespace
 
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:farmiot/analytics/analytics.dart';
-import 'package:farmiot/bluetooth/bluetooth_ui.dart';
 import 'package:farmiot/correctivemeasures/corrective_measures.dart';
 import 'package:farmiot/diseases/diseases.dart';
 import 'package:farmiot/operations/operations.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -460,23 +455,31 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 16,
                     fontWeight: FontWeight.w400),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Measures",
-                    style: TextStyle(
-                        color: mainColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(width: 10),
-                  Icon(
-                    Icons.crop,
-                    color: mainColor,
-                    size: 25,
-                  )
-                ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => const CorrectiveMeasures())));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Measures",
+                      style: TextStyle(
+                          color: mainColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(width: 10),
+                    Icon(
+                      Icons.crop,
+                      color: mainColor,
+                      size: 25,
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -717,6 +720,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     readSensorData();
+    readPumpStatus();
     super.initState();
   }
 
@@ -755,16 +759,10 @@ class _HomePageState extends State<HomePage> {
     DatabaseReference databaseReference =
         FirebaseDatabase.instance.ref().child("pump");
     databaseReference.onValue.listen((DatabaseEvent event) {
-      var moisture = event.snapshot.child("sensordata").child("moisture").value;
-      var temp = event.snapshot.child("sensordata").child("temp").value;
-      var humidity = event.snapshot.child("sensordata").child("humidity").value;
-      var ph = event.snapshot.child("sensordata").child("ph").value;
       setState(() {
-        moistureData = moisture.toString();
-        temperatureData = temp.toString();
-        humidityData = humidity.toString();
-        phData = ph.toString();
+        pumpStatus = event.snapshot.child("status").value.toString();
       });
+      print(pumpStatus);
     });
   }
 }
