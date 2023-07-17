@@ -757,10 +757,16 @@ class _HomePageState extends State<HomePage> {
 
   void readPumpStatus() async {
     DatabaseReference databaseReference =
-        FirebaseDatabase.instance.ref().child("pump");
+        FirebaseDatabase.instance.ref().child("sensordata");
     databaseReference.onValue.listen((DatabaseEvent event) {
       setState(() {
-        pumpStatus = event.snapshot.child("status").value.toString();
+        if (event.snapshot.child("status").value.toString() == "0") {
+          pumpStatus = "OFF";
+        } else if (event.snapshot.child("status").value.toString() == "1") {
+          pumpStatus = "ON";
+        } else {
+          pumpStatus = "";
+        }
       });
       print(pumpStatus);
     });
