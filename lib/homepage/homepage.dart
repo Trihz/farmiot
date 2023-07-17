@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
         width: MediaQuery.of(context).size.width * 0.25,
         margin: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: const Color.fromARGB(255, 255, 255, 255),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.3),
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                 offset: const Offset(0, 1), // changes position of shadow
               ),
             ],
-            borderRadius: BorderRadius.all(Radius.circular(5))),
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
               "ANALYTICS",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 13,
+                  fontSize: 11,
                   fontWeight: FontWeight.w600),
             )
           ],
@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
               "DISEASES",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 13,
+                  fontSize: 11,
                   fontWeight: FontWeight.w600),
             )
           ],
@@ -198,7 +198,7 @@ class _HomePageState extends State<HomePage> {
               "OPERATIONS",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 13,
+                  fontSize: 11,
                   fontWeight: FontWeight.w600),
             )
           ],
@@ -221,7 +221,7 @@ class _HomePageState extends State<HomePage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Container(
-                height: MediaQuery.of(context).size.height * 0.35,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 1,
                 decoration: const BoxDecoration(
                     color: Colors.transparent,
@@ -233,9 +233,6 @@ class _HomePageState extends State<HomePage> {
                     recommendedValues(),
                   ],
                 )),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
-            ),
             topBottomContainer(),
             bluetooth(),
           ],
@@ -437,7 +434,7 @@ class _HomePageState extends State<HomePage> {
   /// the sensor values
   Widget recommendedValues() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.13,
+      height: MediaQuery.of(context).size.height * 0.16,
       width: MediaQuery.of(context).size.width * 1,
       padding: const EdgeInsets.only(left: 30, right: 30),
       decoration:
@@ -469,14 +466,14 @@ class _HomePageState extends State<HomePage> {
                       "Measures",
                       style: TextStyle(
                           color: mainColor,
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 5),
                     Icon(
                       Icons.crop,
                       color: mainColor,
-                      size: 25,
+                      size: 20,
                     )
                   ],
                 ),
@@ -484,14 +481,14 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.08,
+            height: MediaQuery.of(context).size.height * 0.1,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
                     spreadRadius: 1,
                     blurRadius: 1,
                     offset: const Offset(0, 1), // changes position of shadow
@@ -502,116 +499,104 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   width: MediaQuery.of(context).size.width * 0.2,
                   decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.all(Radius.circular(2))),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: const [
                       Text(
                         "10g/m3",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 14,
+                            fontSize: 11,
                             fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(
-                        height: 5,
                       ),
                       Text(
                         "(Wet)",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
+                            fontSize: 10,
                             fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.08,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: const BorderRadius.all(Radius.circular(2))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "25\u00B0C",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "(Medium)",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.08,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: const BorderRadius.all(Radius.circular(2))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "5g/m³",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "(Low)",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   width: MediaQuery.of(context).size.width * 0.2,
                   decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.all(Radius.circular(2))),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Text(
+                        "25\u00B0C",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        "(Medium)",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Text(
+                        "5g/m³",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        "(Low)",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: const [
                       Text(
                         "0.2",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
+                            fontSize: 11,
                             fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(
-                        height: 5,
                       ),
                       Text(
                         "(Basic)",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
+                            fontSize: 11,
                             fontWeight: FontWeight.w500),
                       ),
                     ],
@@ -642,13 +627,13 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(builder: ((context) => BluetoothUI())));*/
           },
           child: Container(
-            width: 60,
-            height: 60,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
                   spreadRadius: 1,
                   blurRadius: 1,
                   offset: const Offset(0, 1), // changes position of shadow
@@ -658,7 +643,7 @@ class _HomePageState extends State<HomePage> {
             ),
             child: Center(
               child:
-                  Icon(Icons.bluetooth_searching, color: mainColor, size: 35),
+                  Icon(Icons.bluetooth_searching, color: mainColor, size: 25),
             ),
           ),
         ),

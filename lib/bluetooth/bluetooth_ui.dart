@@ -21,6 +21,9 @@ class _BluetoothUIState extends State<BluetoothUI> {
   String moisture = "";
   String ph = "";
 
+  /// variable to store the name of connected device
+  String connectedDevice = "";
+
   /// BLE OBJECT
   FlutterBluetoothSerial bluetooth = FlutterBluetoothSerial.instance;
   BluetoothConnection? connection;
@@ -41,8 +44,13 @@ class _BluetoothUIState extends State<BluetoothUI> {
   /// variable to store the main color of the screen
   Color mainColor = const Color.fromARGB(255, 90, 228, 31);
 
+  /// ENABLE
+  void enableBluetooth() {
+    bluetooth.requestEnable();
+  }
+
   /// SCAN
-  Future<void> bondedDevices() async {
+  Future<void> scanDevices() async {
     try {
       bluetoothDevices = await bluetooth.getBondedDevices();
     } on PlatformException {
@@ -118,13 +126,13 @@ class _BluetoothUIState extends State<BluetoothUI> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-              height: MediaQuery.of(context).size.height * 0.25,
+              height: MediaQuery.of(context).size.height * 0.2,
               width: MediaQuery.of(context).size.width * 0.7,
               decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
+                      color: Colors.grey.withOpacity(0.1),
                       spreadRadius: 1,
                       blurRadius: 1,
                       offset: const Offset(0, 1),
@@ -136,44 +144,47 @@ class _BluetoothUIState extends State<BluetoothUI> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         "Bluetooth Connection",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 19,
+                            fontSize: 17,
                             fontWeight: FontWeight.w400),
                       ),
-                      Icon(Icons.bluetooth)
+                      Icon(
+                        Icons.bluetooth,
+                        color: mainColor,
+                      )
                     ],
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                    ),
-                    child: FlutterSwitch(
-                      width: 125.0,
-                      height: 55.0,
-                      valueFontSize: 25.0,
-                      toggleSize: 45.0,
-                      value: connectionStatus,
-                      borderRadius: 30.0,
-                      padding: 5,
-                      showOnOff: true,
-                      onToggle: (val) {
-                        setState(() {
-                          connectionStatus = val;
-                        });
-                      },
-                    ),
-                  ),
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          enableBluetooth();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade200,
+                            foregroundColor: Colors.black,
+                            shadowColor: Colors.grey),
+                        child: const Text(
+                          "ENABLE",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      )),
                   Text(
-                    "Farm1 Location 2",
-                    style: TextStyle(
+                    connectedDevice,
+                    style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 19,
+                        fontSize: 16,
                         fontWeight: FontWeight.w400),
                   ),
                 ],
@@ -190,7 +201,7 @@ class _BluetoothUIState extends State<BluetoothUI> {
                 GestureDetector(
                   onTap: () {
                     scanResult(context);
-                    bondedDevices();
+                    scanDevices();
                   },
                   child: Container(
                     width: 60,
@@ -199,7 +210,7 @@ class _BluetoothUIState extends State<BluetoothUI> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color.fromARGB(255, 0, 0, 0)
+                          color: const Color.fromARGB(255, 210, 210, 210)
                               .withOpacity(0.2),
                           spreadRadius: 1,
                           blurRadius: 1,
@@ -214,7 +225,7 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "SCAN",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 13,
                             fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -231,7 +242,7 @@ class _BluetoothUIState extends State<BluetoothUI> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color.fromARGB(255, 0, 0, 0)
+                          color: const Color.fromARGB(255, 210, 210, 210)
                               .withOpacity(0.2),
                           spreadRadius: 1,
                           blurRadius: 1,
@@ -247,38 +258,6 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    sendData();
-                  },
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 0, 0, 0)
-                              .withOpacity(0.2),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset:
-                              const Offset(0, 1), // changes position of shadow
-                        ),
-                      ],
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "SEND",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
                             fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -324,8 +303,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
               "Farm Values",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
             ),
           ),
           Container(
@@ -336,7 +315,7 @@ class _BluetoothUIState extends State<BluetoothUI> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
                     spreadRadius: 1,
                     blurRadius: 1,
                     offset: const Offset(0, 1), // changes position of shadow
@@ -501,8 +480,10 @@ class _BluetoothUIState extends State<BluetoothUI> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.13,
       width: MediaQuery.of(context).size.width * 1,
-      decoration:
-          const BoxDecoration(color: Color.fromARGB(255, 255, 255, 255)),
+      padding: const EdgeInsets.only(left: 10),
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(255, 255, 255, 255),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -512,8 +493,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
               "Recommended Values",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500),
             ),
           ),
           Container(
@@ -524,7 +505,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                    color: const Color.fromARGB(255, 184, 184, 184)
+                        .withOpacity(0.3),
                     spreadRadius: 1,
                     blurRadius: 1,
                     offset: const Offset(0, 1), // changes position of shadow
@@ -547,8 +529,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "10g/m3",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                       SizedBox(
                         height: 5,
@@ -557,8 +539,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "(Wet)",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                     ],
                   ),
@@ -566,9 +548,9 @@ class _BluetoothUIState extends State<BluetoothUI> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.08,
                   width: MediaQuery.of(context).size.width * 0.2,
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: const BorderRadius.all(Radius.circular(2))),
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -576,8 +558,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "25\u00B0C",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                       SizedBox(
                         height: 5,
@@ -586,8 +568,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "(Medium)",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                     ],
                   ),
@@ -595,9 +577,9 @@ class _BluetoothUIState extends State<BluetoothUI> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.08,
                   width: MediaQuery.of(context).size.width * 0.2,
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: const BorderRadius.all(Radius.circular(2))),
+                  decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(2))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -605,8 +587,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "5g/m³",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                       SizedBox(
                         height: 5,
@@ -615,8 +597,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "(Low)",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                     ],
                   ),
@@ -634,8 +616,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "0.2",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                       SizedBox(
                         height: 5,
@@ -644,8 +626,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                         "(Basic)",
                         style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300),
                       ),
                     ],
                   ),
@@ -707,6 +689,8 @@ class _BluetoothUIState extends State<BluetoothUI> {
                     onTap: () {
                       setState(() {
                         addressToConnectTo = bluetoothDevices[index].address;
+                        connectedDevice =
+                            bluetoothDevices[index].name.toString();
                       });
                       print(addressToConnectTo);
                       Navigator.pop(context);
